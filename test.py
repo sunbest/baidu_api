@@ -6,7 +6,7 @@ import itertools
 import json
 from base_utils import valid_encode
 from utils import *
-from human_data import TodayHistory
+from human_data import TodayHistory, Joke
 
 test_ip = '221.232.101.101'
 test_phone = '15754301479'
@@ -37,16 +37,14 @@ def month_day():
     return result
 
 
-start = 0
-per_num = 130
-times = 0
-
-json_file_name = 'today_history.json'
+START = 0
+PER_NUM = 130
+TIMES = 1
 
 # TODO h.a = [h,]
 
 
-def insert_json(dic):
+def insert_json(json_file_name, dic):
     f = open(json_file_name, 'r+')
     content = valid_encode(f.read())
     if content:
@@ -64,24 +62,56 @@ def insert_json(dic):
     pass
 
 
-def history(start, per_num, times):
+def history(start, per_num, times, json_file_name='today_history.json'):
     m_d = month_day()
-    for m, d in m_d[start+per_num*times: per_num]:
+    for m, d in m_d[start+per_num*times: per_num*(times+1)]:
         resp = today_history(m, d)
         resp.print_info()
         if resp.is_success:
             datas = resp.content.get('data', [])
             for data in datas:
-                insert_json(TodayHistory(**data).dic)
+                insert_json(json_file_name, TodayHistory(**data).dic)
         else:
             print 'Error:  %m - %d' % (m, d)
+
+
+def joke_text(json_file_name='joke_text.json', pages=689):
+    for page in range(1, pages):
+        resp = joke_info('joke_text', page=page)
+        if resp.is_success:
+            datas = resp.content.get('showapi_res_body', {})
+            max_page = datas.get("allPages", 1)
+            print 'joke_text == max_page:  ', max_page
+
+            if not datas:
+                break
+            datas = datas.get("contentlist", [])
+            for data in datas:
+                insert_json(json_file_name, Joke(**data).dic)
+
+
+def joke_text2(json_file_name='joke_text2.json', pages=554):
+    for page in range(1, pages):
+        resp = joke_info('joke_text2', page=page)
+        if resp.is_success:
+            datas = resp.content.get('res_body', {})
+
+            max_page = datas.get("PageCount", 1)
+            print 'joke_text2 == max_page:  ', max_page
+
+            datas = datas.get("JokeList", [])
+            for data in datas:
+                insert_json(json_file_name, Joke(**data).dic)
 
 
 if __name__ == '__main__':
     print 'test_start'
     # insert_json()
 
-    history(start, per_num, times)
+    # history(START, PER_NUM, TIMES)
+    # joke_text()
+    joke_text2()
+
     # test_ip = '221.232.101.101'
     # ip_info(test_ip)
     #

@@ -40,7 +40,7 @@ class BaiduApiResponse(object):
             err_num, err_msg = 0, 'success'
 
         if err_num == 0 and err_msg == 'success':
-                self.content = data
+            self.content = data
 
         else:
             self.error = {

@@ -439,11 +439,9 @@ def joke_info(joke_type='joke_text', page=1):
                 }
             }
     """
+    assert joke_type in ('joke_text', 'joke_pic', 'joke_text2')
     print '%s' % joke_type, '='*32
-    if joke_type == 'text':
-        url = API_URL.get('joke_text')
-    else:
-        url = API_URL.get('joke_pic')
+    url = API_URL.get(joke_type).format(page=page)
     return get_info(url)
 
 

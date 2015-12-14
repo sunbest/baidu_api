@@ -30,10 +30,10 @@ API_URL = {
     'identity': 'http://apis.baidu.com/apistore/idservice/id?id={identity}',
 
     # 笑话
-    'joke_text': 'http://apis.baidu.com/showapi_open_bus/showapi_joke/joke_text',  # noqa
-    'joke_pic': 'http://apis.baidu.com/showapi_open_bus/showapi_joke/joke_pic',
+    'joke_text': 'http://apis.baidu.com/showapi_open_bus/showapi_joke/joke_text?page={page}',  # noqa
+    'joke_pic': 'http://apis.baidu.com/showapi_open_bus/showapi_joke/joke_pic?page={page}',
 
-    'joke_text2': 'http://apis.baidu.com/hihelpsme/chinajoke/getjokelist',
+    'joke_text2': 'http://apis.baidu.com/hihelpsme/chinajoke/getjokelist?page={page}',
 
     # 成语信息
     'chengyu': 'http://apis.baidu.com/netpopo/idiom/chengyu?appkey=1307ee261de8bbcf83830de89caae73f%keyword={keyword}',  # noqa
